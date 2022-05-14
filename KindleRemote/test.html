@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="slidecontainer">
+        <input type="range" min="0" max="180" value="1" class="slider" id="servoRange">
+      </div>
+</body>
+</html>
+<script>
+var slider = document.getElementById("servoRange");
+
+// Update the current slider value (each time you drag the slider handle)
+slider.oninput = function() {
+    console.log(slider.value)
+    postyboy(slider.value)
+    // if(this.value == 100){
+    //     console.log(slider.value)
+    //     postyboy(slider.value)
+    // }
+}
+
+function postyboy(value){
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "text/plain");
+
+var requestOptions = {
+  method: 'POST',
+  headers: myHeaders,
+  body: value,
+  redirect: 'follow'
+};
+
+fetch("http://esp8266.local", requestOptions)
+  .then(response => response.text())
+  .then(result => console.log(result))
+  .catch(error => console.log('error', error));
+}
+</script>
+
+
+
