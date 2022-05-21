@@ -1,16 +1,19 @@
-//#include <ESP8266WiFi.h>
+
 #include <ESP8266WebServer.h>
 #include <ESP8266mDNS.h>
-
+#include <Servo.h>
 
 const char* STASSID = "";
 const char* STAPSK = "";
 const char* HOSTNAME = "esp";
 
 ESP8266WebServer server(80);
+Servo servo;
 
 void setup(void) {
   Serial.begin(115200);
+
+  servo.attach(D4); //D4
 
   // Connect to WiFi network
   WiFi.mode(WIFI_STA);
@@ -53,6 +56,9 @@ void setup(void) {
     Serial.println("Triggered printPOST!");
     String postBody = server.arg("plain");
     Serial.println(postBody);
+
+    servo.write(postBody.toInt());
+    delay(5);
 
     // Add a header to respond with a new location for the browser to go to the home page again
     server.sendHeader("Location","/"); 
